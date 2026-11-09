@@ -1,0 +1,27 @@
+﻿# Kubernetes credentials
+kubeconfig
+*.kubeconfig
+
+# Secrets and environment variables
+.env
+.env.*
+!.env.example
+secrets/
+*.secret.yaml
+
+# Certificates and private keys
+*.pem
+*.key
+*.crt
+
+# Temporary files
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
