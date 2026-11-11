@@ -25,3 +25,6 @@ secrets/
 # OS
 Thumbs.db
 .DS_Store
+
+# Local backups
+backups/

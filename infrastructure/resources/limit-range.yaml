@@ -1,0 +1,20 @@
+﻿apiVersion: v1
+kind: LimitRange
+metadata:
+  name: memo-saas-limit-range
+  namespace: memo-saas
+spec:
+  limits:
+    - type: Container
+      defaultRequest:
+        cpu: 100m
+        memory: 128Mi
+      default:
+        cpu: 500m
+        memory: 256Mi
+      min:
+        cpu: 50m
+        memory: 64Mi
+      max:
+        cpu: 500m
+        memory: 512Mi

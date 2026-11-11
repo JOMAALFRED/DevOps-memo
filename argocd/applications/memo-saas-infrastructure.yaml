@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: memo-saas-infrastructure
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/JOMAALFRED/DevOps-memo.git
+    targetRevision: main
+    path: infrastructure/resources
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: memo-saas
+
+  syncPolicy:
+    syncOptions:
+      - Validate=true
