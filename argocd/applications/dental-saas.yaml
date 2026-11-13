@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dental-saas
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/JOMAALFRED/DevOps-memo.git
+    targetRevision: main
+    path: helm/dental-saas
+    helm:
+      releaseName: dental-saas
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: memo-saas
+
+  syncPolicy:
+    syncOptions:
+      - Validate=true
