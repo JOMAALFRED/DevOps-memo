@@ -1,0 +1,27 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: {{ include "dental-saas.fullname" . }}-frontend
+  labels:
+    {{- include "dental-saas.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  replicas: {{ .Values.frontend.replicaCount }}
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      {{- include "dental-saas.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: frontend
+  workloadRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "dental-saas.fullname" . }}-frontend
+    scaleDown: onsuccess
+  strategy:
+    blueGreen:
+      activeService: {{ include "dental-saas.fullname" . }}-frontend
+      previewService: {{ include "dental-saas.fullname" . }}-frontend-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 30
+{{- end }}
