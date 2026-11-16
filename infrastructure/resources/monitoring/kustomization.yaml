@@ -3,3 +3,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - traefik-metrics-service.yaml
+  - prometheus-config.yaml
+  - prometheus-pvc.yaml
+  - prometheus-deployment.yaml
+  - prometheus-service.yaml
