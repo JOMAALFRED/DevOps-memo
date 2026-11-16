@@ -19,9 +19,21 @@ spec:
     name: {{ include "dental-saas.fullname" . }}-frontend
     scaleDown: onsuccess
   strategy:
-    blueGreen:
-      activeService: {{ include "dental-saas.fullname" . }}-frontend
-      previewService: {{ include "dental-saas.fullname" . }}-frontend-preview
-      autoPromotionEnabled: false
+    canary:
+      stableService: {{ include "dental-saas.fullname" . }}-frontend
+      canaryService: {{ include "dental-saas.fullname" . }}-frontend-preview
+      trafficRouting:
+        traefik:
+          weightedTraefikServiceName: {{ include "dental-saas.fullname" . }}-frontend-weighted
+      maxSurge: 1
+      maxUnavailable: 0
       scaleDownDelaySeconds: 30
+      steps:
+        - setWeight: 10
+        - pause: {}
+        - setWeight: 30
+        - pause: {}
+        - setWeight: 50
+        - pause: {}
+        - setWeight: 100
 {{- end }}

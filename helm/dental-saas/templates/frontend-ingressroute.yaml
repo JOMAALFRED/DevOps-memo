@@ -1,0 +1,18 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "dental-saas.fullname" . }}-frontend
+  labels:
+    {{- include "dental-saas.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`dental-saas.test`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: {{ include "dental-saas.fullname" . }}-frontend-weighted
+          kind: TraefikService
+{{- end }}

@@ -1,0 +1,16 @@
+{{- if .Values.frontend.enabled }}
+apiVersion: traefik.io/v1alpha1
+kind: TraefikService
+metadata:
+  name: {{ include "dental-saas.fullname" . }}-frontend-weighted
+  labels:
+    {{- include "dental-saas.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  weighted:
+    services:
+      - name: {{ include "dental-saas.fullname" . }}-frontend
+        port: {{ .Values.frontend.service.port }}
+      - name: {{ include "dental-saas.fullname" . }}-frontend-preview
+        port: {{ .Values.frontend.service.port }}
+{{- end }}
