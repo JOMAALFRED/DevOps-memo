@@ -5,18 +5,35 @@ metadata:
   namespace: argocd
 spec:
   project: default
-
   source:
     repoURL: https://github.com/JOMAALFRED/DevOps-memo.git
     targetRevision: main
     path: helm/dental-saas
     helm:
       releaseName: dental-saas
-
   destination:
     server: https://kubernetes.default.svc
     namespace: memo-saas
-
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: dental-saas-frontend
+      namespace: memo-saas
+      jsonPointers:
+        - /spec/replicas
+    - group: ""
+      kind: Service
+      name: dental-saas-frontend
+      namespace: memo-saas
+      jsonPointers:
+        - /spec/selector
+    - group: ""
+      kind: Service
+      name: dental-saas-frontend-preview
+      namespace: memo-saas
+      jsonPointers:
+        - /spec/selector
   syncPolicy:
     syncOptions:
       - Validate=true
+      - RespectIgnoreDifferences=true
