@@ -1,4 +1,4 @@
-﻿apiVersion: v1
+apiVersion: v1
 kind: ResourceQuota
 metadata:
   name: memo-saas-quota
@@ -6,7 +6,7 @@ metadata:
 spec:
   hard:
     requests.cpu: "500m"
-    limits.cpu: "1"
+    limits.cpu: "1200m"
     requests.memory: "512Mi"
-    limits.memory: "1Gi"
+    limits.memory: "1152Mi"
     pods: "10"
