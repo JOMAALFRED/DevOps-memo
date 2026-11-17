@@ -21,6 +21,7 @@ configMapGenerator:
     files:
       - dashboards/devops-memo-overview.json
       - dashboards/kubernetes-cluster-overview.json
+      - dashboards/argo-rollouts-overview.json
     options:
       disableNameSuffixHash: true
       labels:
