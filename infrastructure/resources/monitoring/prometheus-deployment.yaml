@@ -18,6 +18,8 @@ spec:
       labels:
         app.kubernetes.io/name: prometheus
         app.kubernetes.io/component: monitoring
+      annotations:
+        prometheus-config-revision: "4"
     spec:
       automountServiceAccountToken: false
       securityContext:
