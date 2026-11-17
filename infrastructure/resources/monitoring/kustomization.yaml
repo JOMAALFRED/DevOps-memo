@@ -12,3 +12,15 @@ resources:
   - grafana-pvc.yaml
   - grafana-deployment.yaml
   - grafana-service.yaml
+  - grafana-dashboard-provider.yaml
+
+configMapGenerator:
+  - name: grafana-dashboard-json
+    namespace: monitoring
+    files:
+      - dashboards/devops-memo-overview.json
+    options:
+      disableNameSuffixHash: true
+      labels:
+        app.kubernetes.io/name: grafana
+        app.kubernetes.io/component: monitoring

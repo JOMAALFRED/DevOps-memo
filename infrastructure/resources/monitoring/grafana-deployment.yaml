@@ -82,6 +82,12 @@ spec:
             - name: grafana-datasources
               mountPath: /etc/grafana/provisioning/datasources
               readOnly: true
+            - name: grafana-dashboard-provider
+              mountPath: /etc/grafana/provisioning/dashboards
+              readOnly: true
+            - name: grafana-dashboard-json
+              mountPath: /etc/grafana/dashboards
+              readOnly: true
             - name: tmp
               mountPath: /tmp
       volumes:
@@ -91,5 +97,11 @@ spec:
         - name: grafana-datasources
           configMap:
             name: grafana-datasources
+        - name: grafana-dashboard-provider
+          configMap:
+            name: grafana-dashboard-provider
+        - name: grafana-dashboard-json
+          configMap:
+            name: grafana-dashboard-json
         - name: tmp
           emptyDir: {}
