@@ -13,6 +13,7 @@ resources:
   - grafana-deployment.yaml
   - grafana-service.yaml
   - grafana-dashboard-provider.yaml
+  - kube-state-metrics-application.yaml
 
 configMapGenerator:
   - name: grafana-dashboard-json
