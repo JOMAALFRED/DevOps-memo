@@ -20,6 +20,7 @@ configMapGenerator:
     namespace: monitoring
     files:
       - dashboards/devops-memo-overview.json
+      - dashboards/kubernetes-cluster-overview.json
     options:
       disableNameSuffixHash: true
       labels:
