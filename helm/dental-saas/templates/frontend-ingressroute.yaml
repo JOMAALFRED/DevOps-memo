@@ -10,8 +10,19 @@ spec:
   entryPoints:
     - web
   routes:
+    # API FastAPI
+    - match: Host(`dental-saas.test`) && (Path(`/api`) || PathPrefix(`/api/`))
+      kind: Rule
+      priority: 100
+      services:
+        - name: {{ include "dental-saas.fullname" . }}-backend
+          kind: Service
+          port: {{ .Values.backend.service.port }}
+
+    # Frontend React / Nginx
     - match: Host(`dental-saas.test`) && PathPrefix(`/`)
       kind: Rule
+      priority: 1
       services:
         - name: {{ include "dental-saas.fullname" . }}-frontend-weighted
           kind: TraefikService
