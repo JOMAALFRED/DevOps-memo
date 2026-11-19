@@ -95,5 +95,5 @@ postgresql:
       cpu: 100m
       memory: 128Mi
     limits:
-      cpu: 500m
-      memory: 384Mi
+      cpu: 250m
+      memory: 256Mi
