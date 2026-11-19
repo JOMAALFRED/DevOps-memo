@@ -1,0 +1,59 @@
+﻿{{- if .Values.frontend.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: {{ include "dental-saas.fullname" . }}-frontend-analysis
+  labels:
+    {{- include "dental-saas.labels" . | nindent 4 }}
+    app.kubernetes.io/component: frontend
+spec:
+  metrics:
+    - name: preview-http-5xx-ratio
+      count: 1
+      initialDelay: 5m
+      successCondition: result[0] >= 0 && result[0] <= 0.01
+      failureCondition: result[0] > 0.01
+      provider:
+        prometheus:
+          address: http://prometheus.monitoring.svc.cluster.local:9090
+          query: |
+            (
+              (
+                (
+                  sum(increase(traefik_service_requests_total{
+                    service="{{ .Release.Namespace }}-{{ include "dental-saas.fullname" . }}-frontend-preview-80@kubernetescrd",
+                    code=~"5.."
+                  }[5m])) or vector(0)
+                )
+                /
+                clamp_min(
+                  (
+                    sum(increase(traefik_service_requests_total{
+                      service="{{ .Release.Namespace }}-{{ include "dental-saas.fullname" . }}-frontend-preview-80@kubernetescrd"
+                    }[5m])) or vector(0)
+                  ),
+                  1
+                )
+              )
+              and on()
+              (
+                (
+                  sum(increase(traefik_service_requests_total{
+                    service="{{ .Release.Namespace }}-{{ include "dental-saas.fullname" . }}-frontend-preview-80@kubernetescrd"
+                  }[5m])) or vector(0)
+                ) >= 10
+              )
+            )
+            or
+            (
+              vector(-1)
+              unless on()
+              (
+                (
+                  sum(increase(traefik_service_requests_total{
+                    service="{{ .Release.Namespace }}-{{ include "dental-saas.fullname" . }}-frontend-preview-80@kubernetescrd"
+                  }[5m])) or vector(0)
+                ) >= 10
+              )
+            )
+{{- end }}

@@ -30,6 +30,9 @@ spec:
       scaleDownDelaySeconds: 30
       steps:
         - setWeight: 10
+        - analysis:
+            templates:
+              - templateName: {{ include "dental-saas.fullname" . }}-frontend-analysis
         - pause: {}
         - setWeight: 30
         - pause: {}
