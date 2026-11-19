@@ -39,6 +39,12 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.mongodb.auth.existingSecret }}
                   key: {{ .Values.mongodb.auth.passwordKey }}
+          startupProbe:
+            tcpSocket:
+              port: mongodb
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 60
           readinessProbe:
             tcpSocket:
               port: mongodb
