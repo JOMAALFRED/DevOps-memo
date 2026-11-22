@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devops-memo-canary
+  namespace: argocd
+  labels:
+    environment: parrot-home
+    application: devops-memo-demo
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/JOMAALFRED/DevOps-memo.git
+    targetRevision: main
+    path: apps/demo-web/k8s/canary
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-memo-canary
+
+  ignoreDifferences:
+    - group: ""
+      kind: Service
+      jsonPointers:
+        - /spec/selector/rollouts-pod-template-hash
+
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true

@@ -1,0 +1,88 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: devops-memo-canary
+  labels:
+    app.kubernetes.io/part-of: devops-memo
+spec:
+  replicas: 4
+  revisionHistoryLimit: 2
+
+  selector:
+    matchLabels:
+      app: devops-memo-canary
+
+  template:
+    metadata:
+      labels:
+        app: devops-memo-canary
+    spec:
+      automountServiceAccountToken: false
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+
+      containers:
+        - name: demo-web
+          image: docker.io/library/devops-memo-demo:blue-1.0.0
+          imagePullPolicy: IfNotPresent
+
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 2
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 96Mi
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+
+  strategy:
+    canary:
+      stableService: devops-memo-canary-stable
+      canaryService: devops-memo-canary-canary
+
+      maxSurge: 1
+      maxUnavailable: 0
+
+      steps:
+        - setWeight: 25
+        - pause:
+            duration: 30s
+
+        - setWeight: 50
+        - pause:
+            duration: 30s
+
+        - setWeight: 75
+        - pause:
+            duration: 30s

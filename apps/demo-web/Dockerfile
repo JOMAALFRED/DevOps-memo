@@ -1,0 +1,20 @@
+FROM python:3.12-alpine
+
+ARG APP_VERSION=1.0.0
+ARG APP_COLOR=blue
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PORT=8080 \
+    APP_VERSION=${APP_VERSION} \
+    APP_COLOR=${APP_COLOR}
+
+WORKDIR /app
+
+COPY --chown=10001:10001 src/server.py /app/server.py
+
+USER 10001:10001
+
+EXPOSE 8080
+
+CMD ["python", "/app/server.py"]

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-memo-bluegreen-stable
+spec:
+  type: ClusterIP
+  selector:
+    app: devops-memo-bluegreen
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devops-memo-bluegreen-preview
+spec:
+  type: ClusterIP
+  selector:
+    app: devops-memo-bluegreen
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
