@@ -39869,7 +39869,7 @@ spec:
     spec:
       containers:
       - image: quay.io/argoproj/argo-rollouts:v1.10.2
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
           httpGet:
