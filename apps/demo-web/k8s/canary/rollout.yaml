@@ -28,7 +28,7 @@ spec:
 
       containers:
         - name: demo-web
-          image: docker.io/library/devops-memo-demo:green-2.0.0
+          image: docker.io/library/devops-memo-demo:blue-1.0.0
           imagePullPolicy: IfNotPresent
 
           ports:
