@@ -26,6 +26,12 @@ spec:
           monitor:
             enabled: false
 
+        startupProbe:
+          enabled: true
+          failureThreshold: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+
         selfMonitor:
           enabled: false
 
