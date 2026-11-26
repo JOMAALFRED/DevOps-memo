@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: devops-memo-canary-smartone
+  namespace: argocd
+  labels:
+    environment: smartone
+    application: devops-memo-demo
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/JOMAALFRED/DevOps-memo.git
+    targetRevision: main
+    path: apps/demo-web/k8s/overlays/smartone/canary
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: devops-memo-canary
+
+  ignoreDifferences:
+    - group: ""
+      kind: Service
+      jsonPointers:
+        - /spec/selector/rollouts-pod-template-hash
+
+  syncPolicy:
+    syncOptions:
+      - RespectIgnoreDifferences=true

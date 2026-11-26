@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: devops-memo-bluegreen
+
+resources:
+  - ../../../blue-green
+
+patches:
+  - target:
+      version: v1
+      kind: Namespace
+      name: devops-memo-bluegreen
+    patch: |-
+      - op: replace
+        path: /metadata/labels/environment
+        value: smartone
+
+  - target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Rollout
+      name: devops-memo-bluegreen
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/image
+        value: docker.io/library/devops-memo-demo:blue-1.0.0
