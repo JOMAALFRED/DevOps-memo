@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: devops-memo-canary-smartone
+  name: devops-memo-canary
   namespace: argocd
   labels:
     environment: smartone

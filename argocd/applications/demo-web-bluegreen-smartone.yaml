@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 
 metadata:
-  name: devops-memo-bluegreen-smartone
+  name: devops-memo-bluegreen
   namespace: argocd
   labels:
     environment: smartone
