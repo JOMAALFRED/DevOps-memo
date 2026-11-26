@@ -24,4 +24,4 @@ patches:
     patch: |-
       - op: replace
         path: /spec/template/spec/containers/0/image
-        value: docker.io/library/devops-memo-demo:blue-1.0.0
+        value: docker.io/library/devops-memo-demo:green-2.0.0
